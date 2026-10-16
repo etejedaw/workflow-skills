@@ -1,0 +1,20 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Git",
+      "description": "Commits granulares y changelogs de release.",
+      "skills": ["git-commit", "release-changelog"]
+    },
+    {
+      "title": "Migraciones",
+      "description": "Migraciones de base de datos al crear o modificar modelos y entidades.",
+      "skills": ["sequelize-migration", "typeorm-migration"]
+    },
+    {
+      "title": "Documentación de APIs",
+      "description": "Mantiene la colección de Bruno al día con los endpoints HTTP.",
+      "skills": ["bruno-endpoints"]
+    }
+  ]
+}
