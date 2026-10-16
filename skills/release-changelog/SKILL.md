@@ -1,6 +1,7 @@
 ---
 name: release-changelog
 description: Generate per-feature technical changelog documents (default docs/changelogs/) summarizing commits since the last documented release, plus public release entries when the project defines them and the changes are user-facing. Trigger when the user asks to "registrar cambios", "actualizar el changelog", "preparar release", "documentar lo que se ha hecho" o antes de un paso a productivo. Never rewrites historical entries.
+license: Apache-2.0. Complete terms in LICENSE and NOTICE
 ---
 
 # Release Changelog
