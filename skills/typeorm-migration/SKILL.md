@@ -64,7 +64,7 @@ Cuando la base no está disponible, cuando el cambio no sale de las entidades (b
 npm run migration:create -- src/database/migrations/BackfillUserRoles
 ```
 
-Escribe el SQL siguiendo el estilo de las migraciones existentes y la naming strategy del proyecto.
+Escribe el SQL siguiendo la naming strategy del proyecto.
 
 ### Revisar siempre el resultado
 
@@ -79,10 +79,6 @@ El generado **no se entrega sin revisar**:
 ### Registrar la migración
 
 Si el DataSource recibe un array de clases importado (por ejemplo desde `migrations/index.ts`), **agrega la clase nueva al array**. Si no, ni la app ni el CLI la ven.
-
-### No correr las migraciones
-
-Nunca `migration:run` ni `migration:revert`, ni en desarrollo ni en producción. Avisa al usuario que la migración está lista y deja que él la aplique.
 
 ## Naming
 
@@ -151,7 +147,6 @@ Las fechas sin hora (solo día) van como `type: "date"`.
 - **Identificadores entre comillas dobles**, como los escribe TypeORM: `"users"`, `"last_name"`.
 - **Enums**: TypeORM nombra el tipo `<tabla>_<columna>_enum` (ej: `users_role_enum`), salvo que el `@Column` defina `enumName`.
 - **Defaults con UUID**: `gen_random_uuid()` (nativo desde PostgreSQL 13).
-- **Fechas en `timestamptz`**: toda columna de fecha con hora va como `timestamptz`, nunca `timestamp` (ver "Fechas en PostgreSQL").
 - **FKs**: el `ON DELETE` de la migración debe coincidir con el `onDelete` de la relación en la entidad.
 
 ## Down obligatorio (con una excepción)
@@ -165,4 +160,4 @@ El `down` debe revertir el `up`, en orden inverso. Excepción: agregar valores a
 3. `down` revierte el `up` en orden inverso.
 4. La migración está registrada si el proyecto usa un array de migraciones.
 5. La entidad ya tiene el cambio antes de pedirle al usuario correr la migración.
-6. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.ts`, aplícala con `<comando del proyecto>` cuando quieras". **No correrla tú.**
+6. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.ts`, aplícala con `<comando del proyecto>` cuando quieras". **No correrla tú**: nunca `migration:run` ni `migration:revert`, ni en desarrollo ni en producción.
