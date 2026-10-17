@@ -13,11 +13,8 @@ Documentación de endpoints HTTP en una colección de Bruno con formato **OpenCo
 | Ajuste | Dónde mirarlo | Por defecto |
 | --- | --- | --- |
 | Carpeta de la colección | La carpeta que contiene `opencollection.yml` (búscala excluyendo `node_modules`) | `docs/api/` |
-| Indentación del YAML | Los `.yml` existentes | 4 espacios |
-| Idioma del bloque `docs` | Los `.yml` existentes | El del resto de `docs/` |
-| Variables disponibles | `environments/*.yml` y los scripts `after-response` | — |
 
-Lo que defina el `CLAUDE.md` del proyecto manda sobre estos valores. Si la colección ya tiene endpoints, **son la referencia de estilo**: copia su indentación, la forma de armar `http.url`, los campos de `settings` y el idioma y la estructura del bloque `docs`. Bruno reescribe los archivos al guardarlos desde la app, así que lo que ya hay es lo que Bruno espera.
+Lo que defina el `CLAUDE.md` del proyecto manda sobre estos valores. Si la colección ya tiene endpoints, **son la referencia de estilo**: copia su indentación, la forma de armar `http.url`, los campos de `settings` y el idioma y la estructura del bloque `docs`, sin mezclar idiomas. Si la colección está vacía, usa 4 espacios y el idioma del resto de `docs/`. Bruno reescribe los archivos al guardarlos desde la app, así que lo que ya hay es lo que Bruno espera.
 
 Si el proyecto no tiene colección, pregúntale al usuario antes de crear una.
 
@@ -52,8 +49,6 @@ Si el cambio no toca ninguno de estos puntos (refactor interno, rename de variab
 - **`folder.yml`**: define `info.name` (Title Case del módulo), `info.type: folder`, `info.seq` (orden en la UI) y, si todos los endpoints requieren autenticación, `request.auth: { type: bearer, token: "{{TOKEN}}" }`. Los endpoints públicos del módulo sobrescriben con `auth: none` en su archivo.
 
 ## Schema YAML del endpoint
-
-Indentación de ejemplo: 4 espacios. Usa la de la colección.
 
 ````yaml
 info:
@@ -120,7 +115,7 @@ docs: |-
 - `info.seq`: orden dentro del folder, empezando en 1.
 - `http.url`: path con variables de Bruno (`{{USER_ID}}`, `{{EVENT_ID}}`). Arma la URL igual que los demás endpoints de la colección (con o sin protocolo, con o sin prefijo de versión).
 - `http.body`: solo si el endpoint recibe body.
-- `http.auth`: `inherit` hereda del folder; `none` para endpoints públicos.
+- `http.auth`: `inherit` hereda del folder.
 - `runtime`: opcional, solo si el endpoint necesita scripts (por ejemplo, guardar el token del login).
 
 ### Reglas del bloque `docs`
@@ -155,7 +150,6 @@ Para datos sensibles en bodies de autenticación, usa `{{process.env.EMAIL}}` / 
 - **`<uuid>`** como placeholder en responses para los ids que genera el servidor.
 - **PATCH** para updates parciales (todos los campos del body son opcionales). Mencionarlo en la descripción.
 - **Soft deletes**: documentar el status que devuelve el endpoint y una nota explicando que el registro se preserva.
-- No mezclar idiomas dentro del bloque `docs`: usa el que ya tiene la colección.
 
 ## Antes de cerrar el cambio
 
