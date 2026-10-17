@@ -1,7 +1,7 @@
 ---
 name: typeorm-migration
 description: Create a TypeORM migration whenever an @Entity() class is created or modified in a way that changes the DB schema (new entity, new/removed/renamed column, type change, default change, nullability, unique/index, relation with FK, enum value). Skip if the change is purely TypeScript-side (methods, getters, validation decorators without DDL impact). Prefers migration:generate from the project's DataSource and always reviews the generated SQL.
-license: Apache-2.0. Complete terms in LICENSE and NOTICE
+license: Apache-2.0. Complete terms in LICENSE
 ---
 
 # TypeORM Migration
