@@ -111,6 +111,7 @@ Por cada grupo confirmado, crear `<carpeta>/YYYY-MM-DD-<feature>.md` siguiendo [
 ### 7. Verificar
 
 - `git log <base>..HEAD --oneline | wc -l` coincide con (commits documentados + commits descartados).
+- Cada hash de la sección `Commits` existe en el repo: `git cat-file -e <hash>^{commit}` no debe fallar. Si alguno falla, el commit cambió de hash (rebase, amend) y hay que corregirlo antes de entregar.
 - Ningún changelog viejo fue tocado.
 
 **No hace commit.** Deja los archivos en el working tree para que el usuario los revise.
@@ -146,6 +147,6 @@ Por cada grupo confirmado, crear `<carpeta>/YYYY-MM-DD-<feature>.md` siguiendo [
 ## Checklist final
 
 - [ ] Cada commit no documentado entra en algún changelog o está explícitamente descartado.
-- [ ] Los hashes de cada doc coinciden con `git log --oneline`.
+- [ ] Los hashes de cada doc existen (`git cat-file -e`) y coinciden con `git log --oneline`.
 - [ ] No se modificó ningún changelog viejo.
 - [ ] El usuario revisó los archivos.
