@@ -69,4 +69,4 @@ Cada `SKILL.md` lista en su sección "Configuración del proyecto" qué ajustes 
 
 ## Licencia
 
-Apache 2.0 — ver [LICENSE](LICENSE) y [NOTICE](NOTICE).
+Apache 2.0 — ver [LICENSE](LICENSE).
