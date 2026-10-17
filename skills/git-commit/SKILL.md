@@ -10,7 +10,7 @@ Reglas para crear commits.
 
 ## Configuración del proyecto
 
-Las reglas de abajo son los valores por defecto. Si el `CLAUDE.md` del proyecto define otra cosa (rama de trabajo, scopes, idioma), manda lo del proyecto.
+Las reglas de abajo son los valores por defecto. Si el `CLAUDE.md` del proyecto define otra cosa (scopes, idioma), manda lo del proyecto.
 
 ## Reglas
 
@@ -22,15 +22,14 @@ Las reglas de abajo son los valores por defecto. Si el `CLAUDE.md` del proyecto 
 
 ## Flujo
 
-1. `git branch --show-current`: si la rama es la principal (`main` o `master`), **no commitear** y avisar al usuario, salvo que el `CLAUDE.md` del proyecto lo permita.
-2. `git status` y `git diff` para ver el estado.
-3. Si hay cambios no relacionados, agruparlos mentalmente por intención.
-4. Por cada grupo:
+1. `git status` y `git diff` para ver el estado.
+2. Si hay cambios no relacionados, agruparlos mentalmente por intención.
+3. Por cada grupo:
     - Stagear solo los archivos del grupo con `git add <files>`. **No usar `git add -p`**: el costo en tokens y complejidad supera el beneficio de granularidad fina.
     - Elegir `type` y `scope` apropiados al cambio.
     - Subject en imperativo, en minúsculas, sin punto final.
     - `git commit -m "<type>(<scope>): <subject>"`.
-5. Verificar con `git log --oneline -n <N>`.
+4. Verificar con `git log --oneline -n <N>`.
 
 ## Scope
 
