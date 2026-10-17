@@ -1,7 +1,7 @@
 ---
 name: git-commit
 description: Create granular git commits following Conventional Commits with single-line messages in English and no AI signature, grouping changes by file. Use when the user asks to commit, "haz commit", "commitea" or runs /git-commit.
-license: Apache-2.0. Complete terms in LICENSE and NOTICE
+license: Apache-2.0. Complete terms in LICENSE
 ---
 
 # Git Commit
