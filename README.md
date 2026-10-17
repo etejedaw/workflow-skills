@@ -9,7 +9,7 @@ Cada skill trae valores por defecto razonables y le da prioridad a lo que diga e
 ### Git
 
 - **`git-commit`** — Commits granulares con Conventional Commits, en una sola línea, en inglés y sin firma de IA. Agrupa los cambios por archivo.
-- **`release-changelog`** — Genera changelogs técnicos por feature a partir de los commits no documentados y, si el proyecto lo define, entradas públicas para los usuarios.
+- **`release-changelog`** — Genera changelogs técnicos por feature a partir de los commits no documentados.
 
 ### Migraciones
 
@@ -60,9 +60,8 @@ Si el proyecto no sigue los valores por defecto, decláralo en su `CLAUDE.md`. P
 ```markdown
 ## Skills
 
-- Changelog técnico en `docs/changelogs/`. Changelog público en `apps/landing/src/content/releases/`, con el schema en `apps/landing/src/content.config.ts`; se valida con `npm run build:landing`.
+- Changelogs en `docs/changes/`, comparando contra la rama `develop`.
 - Migraciones de Sequelize en `apps/api/migrations/`, creadas con `npm run migrate:create -w apps/api -- <nombre>`.
-- Los commits van en `develop`.
 ```
 
 Cada `SKILL.md` lista en su sección "Configuración del proyecto" qué ajustes acepta y cuáles son sus valores por defecto.
