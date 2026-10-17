@@ -1,7 +1,7 @@
 ---
 name: sequelize-migration
 description: Create a Sequelize migration whenever a Sequelize model is created or modified in a way that changes the DB schema (new model, new/removed/renamed column, type change, default change, nullability, unique/index, FK, enum value). Applies to files using Model.init, sequelize.define or sequelize-typescript decorators. Skip if the change is purely TypeScript-side (typings, getters, hooks without DDL impact). Uses sequelize-cli and, on PostgreSQL, raw idempotent SQL.
-license: Apache-2.0. Complete terms in LICENSE and NOTICE
+license: Apache-2.0. Complete terms in LICENSE
 ---
 
 # Sequelize Migration
