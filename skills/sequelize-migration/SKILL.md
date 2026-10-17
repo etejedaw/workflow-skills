@@ -20,10 +20,9 @@ Antes de crear la migración, averigua cómo trabaja el proyecto. Lo que defina 
 | Comando para crear | Script de `package.json` que llame a `sequelize-cli migration:generate` | `npx sequelize-cli migration:generate --name <nombre>` |
 | Dialecto | `dialect` en la config de la base | PostgreSQL |
 | Formato del archivo | Las migraciones existentes | CommonJS (`module.exports = { up, down }`), `.js` |
-| Indentación y comillas | Las migraciones existentes | Las del resto del código |
 | Archivo de asociaciones | Donde se llamen `hasMany`, `belongsTo`, etc. | — |
 
-Si ya hay migraciones en la carpeta, **la más reciente es la referencia de estilo**: formato, indentación y forma de escribir el DDL.
+Si ya hay migraciones en la carpeta, **la más reciente es la referencia de estilo**: formato, indentación, comillas y forma de escribir el DDL. Si no hay, usa el estilo del resto del código.
 
 ## Cuándo aplicar
 
@@ -44,7 +43,6 @@ Si dudas, genérala: una migración idempotente sin diff efectivo es barata; un 
 
 1. **Scaffold con el comando del proyecto** (genera el timestamp correctamente). Ejemplo con un script de npm workspaces: `npm run migrate:create -w apps/api -- add-isfeedpublic-to-users`.
 2. **Reescribir el contenido** siguiendo el template de abajo. El scaffold de sequelize-cli usa la API de `queryInterface` (`addColumn`, etc.); en PostgreSQL se prefiere **SQL crudo idempotente** porque maneja mejor los enums y permite reruns. En otros dialectos, o si las migraciones existentes usan `queryInterface`, sigue lo que ya hay.
-3. **No correr las migraciones.** Ni en desarrollo ni, mucho menos, en producción. Avisar al usuario que la migración está lista y dejar que él la corra.
 
 ## Naming
 
@@ -98,8 +96,7 @@ module.exports = {
 
 ## Reglas de DDL (PostgreSQL)
 
-- **Identificadores con mayúsculas o camelCase van entre comillas dobles**: `"Users"`, `"isFeedPublic"`, `"createdAt"`. Sequelize crea tablas en plural y columnas en camelCase por defecto, así que casi todo va entre comillas. Si el proyecto usa `underscored: true` o `tableName` explícito, respeta eso.
-- **Tablas en plural** (default de Sequelize): `Users`, `Lists`, `GameReports`. Excepción: si el modelo define `tableName`, usar ese.
+- **Identificadores con mayúsculas o camelCase van entre comillas dobles**: `"Users"`, `"isFeedPublic"`, `"createdAt"`. Sequelize crea tablas en plural (`Users`, `GameReports`) y columnas en camelCase por defecto, así que casi todo va entre comillas. Si el modelo define `tableName` o el proyecto usa `underscored: true`, respeta eso.
 - **Idempotencia siempre**:
     - `CREATE TABLE IF NOT EXISTS`
     - `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`
@@ -165,8 +162,6 @@ async up(queryInterface) {
 async down() {}
 ```
 
-PostgreSQL no permite quitar un valor de un enum sin recrear el tipo, así que el `down` queda vacío (ver "Down obligatorio").
-
 ### Cambio de tipo / longitud
 
 ```js
@@ -200,7 +195,7 @@ async down(queryInterface) {
 
 ## Down obligatorio (con una excepción)
 
-El `down` debe revertir el `up`. Excepción: agregar valores a un enum no se puede deshacer fácil en PostgreSQL. En ese caso deja `async down() {}` y avísale al usuario del riesgo.
+El `down` debe revertir el `up`. Excepción: PostgreSQL no permite quitar un valor de un enum sin recrear el tipo. Al agregar un valor, deja `async down() {}` y avísale al usuario del riesgo.
 
 ## Antes de cerrar el cambio
 
@@ -208,4 +203,4 @@ El `down` debe revertir el `up`. Excepción: agregar valores a un enum no se pue
 2. `up` y `down` ambos idempotentes (rerun-safe).
 3. Identificadores entre comillas donde corresponde.
 4. El modelo ya tiene la columna (y su `declare` en TS) antes de pedirle al usuario correr la migración.
-5. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.js`, córrela con `<comando del proyecto>` cuando quieras aplicarla". **No correrla tú.**
+5. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.js`, córrela con `<comando del proyecto>` cuando quieras aplicarla". **No correrla tú**, ni en desarrollo ni en producción.
