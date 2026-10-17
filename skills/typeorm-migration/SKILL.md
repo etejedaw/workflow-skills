@@ -121,30 +121,48 @@ export class AddPhoneToUsers1791167844939 implements MigrationInterface {
 }
 ```
 
+## Fechas en PostgreSQL
+
+En PostgreSQL, TypeORM mapea las fechas a `timestamp` (sin zona horaria) si no se le indica el tipo. Eso aplica a `@CreateDateColumn`, `@UpdateDateColumn`, `@DeleteDateColumn` y a un `@Column()` sobre una propiedad `Date`. Postgres guarda entonces la hora sin zona y, al leerla, queda corrida según la zona horaria del servidor o del driver.
+
+Por eso, **toda columna de fecha con hora en una entidad declara `type: "timestamptz"`**:
+
+```ts
+@CreateDateColumn({ type: "timestamptz" })
+createdAt: Date;
+
+@UpdateDateColumn({ type: "timestamptz" })
+updatedAt: Date;
+
+@DeleteDateColumn({ type: "timestamptz" })
+deletedAt: Date | null;
+
+@Column({ type: "timestamptz", nullable: true })
+lastLoginAt: Date | null;
+```
+
+Si al crear o modificar una entidad encuentras una columna de fecha sin `type: "timestamptz"`, agrégalo antes de generar la migración. Si es una columna que ya existe en la base, la migración necesita un `ALTER COLUMN ... TYPE timestamptz`: avísale al usuario antes, porque convertir datos existentes interpreta la hora guardada según la zona horaria de la sesión.
+
+Las fechas sin hora (solo día) van como `type: "date"`.
+
 ## Reglas de DDL (PostgreSQL)
 
 - **Nombres de tablas y columnas** según la naming strategy del proyecto. La default de TypeORM usa el nombre de la propiedad tal cual (camelCase) para las columnas; con una strategy snake_case, `lastName` queda `last_name`. Revisa una migración existente si dudas.
 - **Identificadores entre comillas dobles**, como los escribe TypeORM: `"users"`, `"last_name"`.
 - **Enums**: TypeORM nombra el tipo `<tabla>_<columna>_enum` (ej: `users_role_enum`), salvo que el `@Column` defina `enumName`.
 - **Defaults con UUID**: `gen_random_uuid()` (nativo desde PostgreSQL 13).
-- **Fechas**: si el proyecto usa `timestamptz`, toda columna de fecha nueva también.
+- **Fechas en `timestamptz`**: toda columna de fecha con hora va como `timestamptz`, nunca `timestamp` (ver "Fechas en PostgreSQL").
 - **FKs**: el `ON DELETE` de la migración debe coincidir con el `onDelete` de la relación en la entidad.
 
 ## Down obligatorio (con una excepción)
 
 El `down` debe revertir el `up`, en orden inverso. Excepción: agregar valores a un enum no se puede deshacer fácil en PostgreSQL. En ese caso deja el `down` vacío y avísale al usuario del riesgo.
 
-## Commit
-
-Si la migración acompaña un cambio de entidad + lógica, va en el mismo commit que la feature; si es solo schema, va sola. Usa la skill `git-commit` si está instalada. Ejemplos:
-
-- `feat(db): add phone to users`
-- `chore(db): rename last_name to surname on users`
-
 ## Antes de cerrar el cambio
 
 1. El SQL generado fue revisado: sin renombres convertidos en `DROP` + `ADD` ni cambios ajenos.
-2. `down` revierte el `up` en orden inverso.
-3. La migración está registrada si el proyecto usa un array de migraciones.
-4. La entidad ya tiene el cambio antes de pedirle al usuario correr la migración.
-5. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.ts`, aplícala con `<comando del proyecto>` cuando quieras". **No correrla tú.**
+2. En PostgreSQL, toda columna de fecha con hora de la entidad tiene `type: "timestamptz"` y la migración la crea como `timestamptz`.
+3. `down` revierte el `up` en orden inverso.
+4. La migración está registrada si el proyecto usa un array de migraciones.
+5. La entidad ya tiene el cambio antes de pedirle al usuario correr la migración.
+6. Avisar al usuario: "migración lista en `<carpeta>/<archivo>.ts`, aplícala con `<comando del proyecto>` cuando quieras". **No correrla tú.**
