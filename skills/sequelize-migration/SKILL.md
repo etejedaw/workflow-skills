@@ -202,14 +202,6 @@ async down(queryInterface) {
 
 El `down` debe revertir el `up`. Excepción: agregar valores a un enum no se puede deshacer fácil en PostgreSQL. En ese caso deja `async down() {}` y avísale al usuario del riesgo.
 
-## Commit
-
-Si la migración acompaña un cambio de modelo + lógica, va en el mismo commit que la feature; si es solo schema, va sola. Usa la skill `git-commit` si está instalada. Ejemplos:
-
-- `feat(db): add isFeedPublic to users`
-- `chore(db): rename column X to Y on backlogs`
-- `fix(db): backfill default for status on backlogs`
-
 ## Antes de cerrar el cambio
 
 1. Filename con timestamp UTC correcto (lo da el scaffold de sequelize-cli).
