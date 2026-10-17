@@ -1,7 +1,7 @@
 ---
 name: bruno-endpoints
 description: Keep the Bruno API collection (default docs/api/, OpenCollection YAML format with .yml files, not .bru) in sync whenever an HTTP endpoint is created, modified or removed. Trigger on changes to routes, controllers, request validation schemas or DTOs, and domain error mappings that affect the HTTP surface (method, path, body/query/params, response shape, status codes, errors) in Express, Hono, NestJS or similar backends.
-license: Apache-2.0. Complete terms in LICENSE and NOTICE
+license: Apache-2.0. Complete terms in LICENSE
 ---
 
 # Bruno Endpoints
