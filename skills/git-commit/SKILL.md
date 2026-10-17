@@ -29,6 +29,7 @@ Las reglas de abajo son los valores por defecto. Si el `CLAUDE.md` del proyecto 
     - Elegir `type` y `scope` apropiados al cambio.
     - Subject en imperativo, en minúsculas, sin punto final.
     - `git commit -m "<type>(<scope>): <subject>"`.
+    - Si el commit falla por un hook, detenerse y mostrarle el error al usuario. No corregir ni reintentar.
 4. Verificar con `git log --oneline -n <N>`.
 
 ## Scope
@@ -50,3 +51,4 @@ El módulo o la feature que toca el cambio (`auth`, `users`, `invoices`). En un 
 - Mezclar cambios no relacionados en un solo commit ("misc fixes", "various updates").
 - `git add .` o `git add -A` cuando hay múltiples grupos de cambios.
 - `git add -p` ni cirugía de hunks. La unidad mínima de commit es el archivo.
+- `--no-verify` o cualquier otra forma de saltarse los hooks.
