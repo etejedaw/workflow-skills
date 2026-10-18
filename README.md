@@ -30,28 +30,19 @@ Con el [CLI de skills.sh](https://skills.sh). Para ver las skills disponibles:
 npx skills add etejedaw/workflow-skills --list
 ```
 
-Las skills de git sirven en cualquier proyecto, así que conviene instalarlas a nivel de usuario (`-g`):
+Las skills se instalan dentro de cada proyecto, solo las que correspondan a su stack:
 
 ```bash
-npx skills add etejedaw/workflow-skills -g --skill git-commit --skill release-changelog
-```
-
-Las de migraciones y Bruno dependen del stack, así que se instalan dentro de cada proyecto, solo las que correspondan:
-
-```bash
-npx skills add etejedaw/workflow-skills --skill typeorm-migration --skill bruno-endpoints
+npx skills add etejedaw/workflow-skills --skill git-commit --skill release-changelog --skill typeorm-migration --skill bruno-endpoints
 ```
 
 ## Actualización
 
-Las skills instaladas son copias y no se actualizan solas. Para traer los últimos cambios:
+Las skills instaladas son copias y no se actualizan solas. Para traer los últimos cambios, desde el proyecto:
 
 ```bash
-npx skills update -g
 npx skills update -p
 ```
-
-El primer comando actualiza las globales; el segundo, las del proyecto en el que estás.
 
 ## Configurar una skill para un proyecto
 
