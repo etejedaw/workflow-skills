@@ -13,6 +13,7 @@ Documentación de endpoints HTTP en una colección de Bruno con formato **OpenCo
 | Ajuste | Dónde mirarlo | Por defecto |
 | --- | --- | --- |
 | Carpeta de la colección | La carpeta que contiene `opencollection.yml` (búscala excluyendo `node_modules`) | `docs/api/` |
+| Tests de endpoints | Tests que hacen requests HTTP a la app, como `*.e2e-spec.ts` o `*.integration.test.ts` | Ninguno: si el proyecto no tiene, se omite ese paso |
 
 Lo que defina el `CLAUDE.md` del proyecto manda sobre estos valores. Si la colección ya tiene endpoints, **son la referencia de estilo**: copia su indentación, la forma de armar `http.url`, los campos de `settings` y el idioma y la estructura del bloque `docs`, sin mezclar idiomas. Si la colección está vacía, usa 4 espacios y el idioma del resto de `docs/`. Bruno reescribe los archivos al guardarlos desde la app, así que lo que ya hay es lo que Bruno espera.
 
@@ -20,7 +21,7 @@ Si el proyecto no tiene colección, pregúntale al usuario antes de crear una.
 
 ## Cuándo aplicar
 
-Cada vez que se **crea, modifica o elimina** un endpoint, hay que actualizar su documentación. La skill se activa cuando se tocan archivos que afectan la superficie HTTP:
+Cada vez que se **crea, modifica o elimina** un endpoint, hay que actualizar su documentación y, si el proyecto los tiene, sus tests de endpoints. La skill se activa cuando se tocan archivos que afectan la superficie HTTP:
 
 | Qué cambia | Express | Hono | NestJS |
 | --- | --- | --- | --- |
@@ -157,3 +158,4 @@ Para datos sensibles en bodies de autenticación, usa `{{process.env.EMAIL}}` / 
 2. Todos los errores listados en `## Errors` existen en el código del módulo (error mapper, excepciones o filtros).
 3. Las path/query vars y los campos del body coinciden exactamente con el schema o DTO de validación.
 4. Un endpoint público dentro de un folder con auth tiene `auth: none` en su `.yml`.
+5. Si el proyecto tiene tests de endpoints, los del recurso reflejan el mismo cambio que el `.yml`: casos para lo que se agregó, ajustados para lo que cambió y borrados para lo que se eliminó, según las convenciones de tests del proyecto. Corre los tests del recurso antes de cerrar.
