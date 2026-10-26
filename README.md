@@ -18,7 +18,7 @@ Cada skill trae valores por defecto razonables y le da prioridad a lo que diga e
 
 ### Documentación de APIs
 
-- **`bruno-endpoints`** — Mantiene la colección de [Bruno](https://www.usebruno.com) (formato OpenCollection, `.yml`) al día cuando se crea, cambia o elimina un endpoint. Reconoce rutas de Express, Hono y NestJS.
+- **`bruno-endpoints`** — Mantiene la colección de [Bruno](https://www.usebruno.com) (formato OpenCollection, `.yml`) al día cuando se crea, cambia o elimina un endpoint, junto con los tests de endpoints si el proyecto los tiene. Reconoce rutas de Express, Hono y NestJS.
 
 Cada skill es una carpeta con un `SKILL.md` (frontmatter con `name` y `description`, seguido de las instrucciones en Markdown). El formato es compatible con [Claude Code Agent Skills](https://docs.claude.com/en/docs/claude-code/skills).
 
